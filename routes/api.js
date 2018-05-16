@@ -1,12 +1,14 @@
 const express    = require('express');
 const multer = require('multer');
 const fs 			   = require('fs');
+const config 			  = require('config');
+const path 			  = require('path');
 
-// TODO factor out all config
 var nservices 	 = require('../lib/norma_services.js');
 
+const userWorkspace = config.userWorkspace;
+
 const app        = express();
-const userWorkspace = nservices.userWorkspace;
 
 var router = express.Router();
 
@@ -14,9 +16,10 @@ var diskStorage = multer.diskStorage({
   // Directory on server
   destination: function (req, file, cb) {
     // Create a subdirectory using the specified corpusName 
-		var dir = userWorkspace + req.body.corpusName;
-    !fs.existsSync(dir) && fs.mkdirSync(dir)
-    cb(null, dir)
+		var fullyQualifiedCorpusName = path.join(userWorkspace, req.body.corpusName);
+    !fs.existsSync(userWorkspace) && fs.mkdirSync(userWorkspace);
+    !fs.existsSync(fullyQualifiedCorpusName) && fs.mkdirSync(fullyQualifiedCorpusName);
+    cb(null, fullyQualifiedCorpusName)
   },
 	// File in Directory on server
   filename: function (req, file, cb) {

@@ -1,0 +1,5 @@
+{
+	"host": "localhost",
+  "defaultPort": 3002,
+	"userWorkspace": "./TestUserWorkspace/"
+}
