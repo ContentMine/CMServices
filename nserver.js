@@ -8,6 +8,7 @@ const app        = express();
 
 var nservices 	 = require('./lib/norma_services.js');
 var routerAPI 	 = require('./routes/api.js');
+const fileStorageCM = config.fileStorageCM;
 
 // configure the app
 // log requests to the console
@@ -25,4 +26,5 @@ app.use('/api', routerAPI);
 
 app.listen(port);
 console.log('Starting CM Services server on port ' + port);
+console.log('All user files in  ' + config.fileStorageCM);
 

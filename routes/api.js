@@ -1,31 +1,45 @@
 const express    = require('express');
 const multer = require('multer');
-const fs 			   = require('fs');
+const fs 			   = require('fs-extra');
 const config 			  = require('config');
 const path 			  = require('path');
 
 var nservices 	 = require('../lib/norma_services.js');
 
-const userWorkspace = config.userWorkspace;
+const fileStorageCM = config.fileStorageCM;
 
 const app        = express();
 
 var router = express.Router();
 
+// Each PDF document has the following 'coordinates'
+//    fileStorageCM -- where the CMServices platform stores all user files
+//    userWorkspace -- where all this user's files are stored
+//    corpusName -- contains one (or more) documents (CM CProject)
+//    docName -- one document (CM CTree), e.g., a DOI or other unique name
+
+// All these parameters should be strings suitable for use as directory and file names
+
 var diskStorage = multer.diskStorage({
   // Directory on server
   destination: function (req, file, cb) {
-    // Create a subdirectory using the specified corpusName 
-		var fullyQualifiedCorpusName = path.join(userWorkspace, req.body.corpusName);
-    !fs.existsSync(userWorkspace) && fs.mkdirSync(userWorkspace);
-    !fs.existsSync(fullyQualifiedCorpusName) && fs.mkdirSync(fullyQualifiedCorpusName);
-    cb(null, fullyQualifiedCorpusName)
+		console.log("Uploading... Doc coords:");
+		console.log("fileStorageCM:"+fileStorageCM);
+    // Create a subdirectory using the specified doc coordinates 
+		var fullyQualifiedDocName = path.join(fileStorageCM, 
+		                                         req.body.userWorkspace, 
+																						 req.body.corpusName,
+																						 req.body.docName);
+		console.log(fullyQualifiedDocName);
+
+		// Ensure the full path exists, creating directories if necessary
+    fs.ensureDirSync(fullyQualifiedDocName); 
+
+    cb(null, fullyQualifiedDocName)
   },
 	// File in Directory on server
   filename: function (req, file, cb) {
-		// For initial prototype give uploaded file unique name on disk using UTC/ISO time
-    // simple temp scheme for testing 
-    cb(null, file.originalname + '-' + (new Date().toISOString().replace('T', '_').replace(/:/g,'').replace(/\./g, '').replace(/-/g,'').substr(0, 19)) + '.pdf')
+    cb(null, req.body.docName + '.pdf');
   }
 })
 
@@ -53,7 +67,12 @@ router.route('/corpus')
      			 console.log(err);
      			 return res.end("Error uploading file");
          } else {
-	         console.log('Upload PDF to new Corpus:'+req.body.corpusName); 	
+					var fullyQualifiedDocName = path.join(fileStorageCM, 
+		                                         req.body.userWorkspace, 
+																						 req.body.corpusName,
+																						 req.body.docName);
+
+	         console.log('Upload PDF to new Corpus:'+fullyQualifiedDocName); 	
 
 			     res.json({ message: 'PDF uploaded' });
 		       req.files.forEach( function(f) {
