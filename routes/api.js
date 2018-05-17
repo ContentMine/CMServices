@@ -61,7 +61,6 @@ router.route('/corpus')
 					   console.log(f);
      		   });
 					 nservices.makeProject(req, res);
-	   	     res.end('File uploaded and CProject created');
          }
 			})
 })
@@ -87,7 +86,6 @@ router.route('/transformSVGTABLE2HTML')
 			 // TODO Error handling!
        console.log(req.body);
 			 nservices.transformSVGTABLE2HTML(req, res);
-	     res.end('Called SVGTABLE2HTML');
 		});
 
 module.exports = router;
