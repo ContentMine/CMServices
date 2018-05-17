@@ -107,5 +107,28 @@ router.route('/transformSVGTABLE2HTML')
 			 nservices.transformSVGTABLE2HTML(req, res);
 		});
 
+router.route('/getTableHTML')
+	.get(function(req, res) {
+			 // TODO Error handling!
+       console.log(req.body);
+
+			 // Return the result already stored for this doc (if any)
+			 var fullyQualifiedCorpusName = path.join(fileStorageCM, 
+                                       		 req.body.userWorkspace, 
+																					 req.body.corpusName);
+			 var tableHTMLPath = path.join(fullyQualifiedCorpusName,
+																		 req.body.docName,
+								 										 'tables/table1/table.svg.html');
+
+			 if (!fs.existsSync(tableHTMLPath)) { 
+     		 console.log("File not found:"+tableHTMLPath);
+     		 return res.end("File not found:"+tableHTMLPath);
+			 } else {
+			 	 console.log('return HTML table at: ' + tableHTMLPath);
+			 	 res.sendFile(path.resolve(tableHTMLPath));
+			 }
+		});
+
+
 module.exports = router;
 
