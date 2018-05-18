@@ -107,17 +107,28 @@ router.route('/transformSVGTABLE2HTML')
 			 nservices.transformSVGTABLE2HTML(req, res);
 		});
 
-router.route('/getTableHTML')
-	.get(function(req, res) {
+router.route('/transformSVGTABLE2CSV')
+	.post(function(req, res) {
 			 // TODO Error handling!
        console.log(req.body);
+			 nservices.transformSVGTABLE2CSV(req, res);
+		});
+
+
+// GET routes 
+// Retrieve results from filesystem
+
+router.route('/getTableHTML/user/:userWorkspace/corpus/:corpusName/docName/:docName/')
+	.get(function(req, res) {
+			 // TODO Error handling!
+       console.log(req.params);
 
 			 // Return the result already stored for this doc (if any)
 			 var fullyQualifiedCorpusName = path.join(fileStorageCM, 
-                                       		 req.body.userWorkspace, 
-																					 req.body.corpusName);
+                                       		 req.params.userWorkspace, 
+																					 req.params.corpusName);
 			 var tableHTMLPath = path.join(fullyQualifiedCorpusName,
-																		 req.body.docName,
+																		 req.params.docName,
 								 										 'tables/table1/table.svg.html');
 
 			 if (!fs.existsSync(tableHTMLPath)) { 
@@ -129,24 +140,17 @@ router.route('/getTableHTML')
 			 }
 		});
 
-router.route('/transformSVGTABLE2CSV')
-	.post(function(req, res) {
-			 // TODO Error handling!
-       console.log(req.body);
-			 nservices.transformSVGTABLE2CSV(req, res);
-		});
-
-router.route('/getTableCSV')
+router.route('/getTableCSV/user/:userWorkspace/corpus/:corpusName/docName/:docName/')
 	.get(function(req, res) {
 			 // TODO Error handling!
-       console.log(req.body);
+       console.log(req.params);
 
 			 // Return the result already stored for this doc (if any)
 			 var fullyQualifiedCorpusName = path.join(fileStorageCM, 
-                                       		 req.body.userWorkspace, 
-																					 req.body.corpusName);
+                                       		 req.params.userWorkspace, 
+																					 req.params.corpusName);
 			 var tableCSVPath = path.join(fullyQualifiedCorpusName,
-																		 req.body.docName,
+																		 req.params.docName,
 								 										 'tables/table1/table.svg.csv');
 
 			 if (!fs.existsSync(tableCSVPath)) { 
