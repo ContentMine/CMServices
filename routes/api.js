@@ -124,10 +124,40 @@ router.route('/getTableHTML')
      		 console.log("File not found:"+tableHTMLPath);
      		 return res.end("File not found:"+tableHTMLPath);
 			 } else {
-			 	 console.log('return HTML table at: ' + tableHTMLPath);
+			 	 console.log('return table data in HTML at: ' + tableHTMLPath);
 			 	 res.sendFile(path.resolve(tableHTMLPath));
 			 }
 		});
+
+router.route('/transformSVGTABLE2CSV')
+	.post(function(req, res) {
+			 // TODO Error handling!
+       console.log(req.body);
+			 nservices.transformSVGTABLE2CSV(req, res);
+		});
+
+router.route('/getTableCSV')
+	.get(function(req, res) {
+			 // TODO Error handling!
+       console.log(req.body);
+
+			 // Return the result already stored for this doc (if any)
+			 var fullyQualifiedCorpusName = path.join(fileStorageCM, 
+                                       		 req.body.userWorkspace, 
+																					 req.body.corpusName);
+			 var tableCSVPath = path.join(fullyQualifiedCorpusName,
+																		 req.body.docName,
+								 										 'tables/table1/table.svg.csv');
+
+			 if (!fs.existsSync(tableCSVPath)) { 
+     		 console.log("File not found:"+tableCSVPath);
+     		 return res.end("File not found:"+tableCSVPath);
+			 } else {
+			 	 console.log('return table data in CSV at: ' + tableCSVPath);
+			 	 res.sendFile(path.resolve(tableCSVPath));
+			 }
+		});
+
 
 
 module.exports = router;
