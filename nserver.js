@@ -1,10 +1,12 @@
 
 const express    = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan     = require('morgan');
 const config		 = require('config');
 
 const app        = express();
+app.use(cors());
 
 var nservices 	 = require('./lib/norma_services.js');
 var routerAPI 	 = require('./routes/api.js');
