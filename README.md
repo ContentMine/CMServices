@@ -1,6 +1,6 @@
-#CMServices
+# CMServices
 
-##ContentMine Services Layer
+## ContentMine Services Layer
 
 A web services layer to allow frontend web apps to make use of core ContentMine backends and tools such as `norma` (and in future other ContentMine tools such as `ami`, `getpapers` and `quickscrape`).
 
