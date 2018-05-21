@@ -1,11 +1,12 @@
 
-const express    = require('express');
+var express    = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan     = require('morgan');
 const config		 = require('config');
+const http = require('http');
 
-const app        = express();
+var app        = express();
 app.use(cors());
 
 var nservices 	 = require('./lib/norma_services.js');
@@ -26,7 +27,15 @@ var port     = process.env.PORT || config.defaultPort;
 // Register our routes 
 app.use('/api', routerAPI);
 
-app.listen(port);
-console.log('Starting CM Services server on port ' + port);
-console.log('All user files in  ' + config.fileStorageCM);
+app.set('port', port);
+
+var server = http.createServer(app);
+server.listen(app.get('port'), function(){
+   console.log('CMServices listening on port ' + app.get('port'));
+	 console.log('All user files in  ' + config.fileStorageCM);
+});
+
+app.server = server;
+
+module.exports = { app: app, server: server };
 
