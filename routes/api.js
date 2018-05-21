@@ -18,7 +18,7 @@ var router = express.Router();
 //    corpusName -- contains one (or more) documents (CM CProject)
 //    docName -- one document (CM CTree), e.g., a DOI or other unique name
 
-// All these parameters should be strings suitable for use as directory and file names
+// All these parameters should be strings suitable for use as directory and file names on the server platform
 
 var diskStorage = multer.diskStorage({
   // Directory on server
@@ -32,7 +32,7 @@ var diskStorage = multer.diskStorage({
 																						 req.body.docName);
 		console.log(fullyQualifiedDocName);
 
-		// Ensure the full path exists, creating directories if necessary
+		// Ensure the full path exists, creating directories at any level as necessary
     fs.ensureDirSync(fullyQualifiedDocName); 
 
     cb(null, fullyQualifiedDocName)
@@ -60,7 +60,7 @@ router.get('/', function(req, res) {
 // The corpus API
 // A corpus is used to contain one CTree containing one PDF file and 
 // the files resulting from transforms and extraction
-router.route('/corpus')
+router.route('/createCorpus')
 	.post(function(req, res) {
   		 upload(req, res, function(err) {
          if (err) {
@@ -161,8 +161,6 @@ router.route('/getTableCSV/:userWorkspace/:corpusName/:docName/')
 			 	 res.sendFile(path.resolve(tableCSVPath));
 			 }
 		});
-
-
 
 module.exports = router;
 
