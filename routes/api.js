@@ -118,7 +118,7 @@ router.route('/transformSVGTABLE2CSV')
 // GET routes 
 // Retrieve results from filesystem
 
-router.route('/getTableHTML/user/:userWorkspace/corpus/:corpusName/docName/:docName/')
+router.route('/getTableHTML/:userWorkspace/:corpusName/:docName/')
 	.get(function(req, res) {
 			 // TODO Error handling!
        console.log(req.params);
@@ -140,7 +140,7 @@ router.route('/getTableHTML/user/:userWorkspace/corpus/:corpusName/docName/:docN
 			 }
 		});
 
-router.route('/getTableCSV/user/:userWorkspace/corpus/:corpusName/docName/:docName/')
+router.route('/getTableCSV/:userWorkspace/:corpusName/:docName/')
 	.get(function(req, res) {
 			 // TODO Error handling!
        console.log(req.params);
