@@ -1,6 +1,5 @@
 {
 	"host": "localhost",
-  "defaultPort": 3002,
 	"fileStorageCM": "./CMServicesFilestore/",
 	"normaJar": "./bin/norma-0.7.0-alpha-jar-with-dependencies.jar"
 }
