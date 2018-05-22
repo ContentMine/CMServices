@@ -67,8 +67,9 @@ Example usage:
 **`/api/cropbox`** \
 Crop document according to coordinates, dimensions and page number to select a specific area for data extraction using norma.  Assumes a single-document corpus. 
 
-HTTP verb: **POST**  \ 
-Form data: x-www-form-urlencoded \
+HTTP verb: **POST**\ 
+Form data: x-www-form-urlencoded\
+
 **Fields** \
 `userWorkspace` A relative directory name in which all this user's files are stored
 `corpusName` The name of the corpus.  
