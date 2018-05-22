@@ -34,9 +34,10 @@ Note: This API is subject to change
 
 ---
 
-**`/api/createCorpus`**
-HTTP verb: **POST**  
-Form data: multipart
+**`/api/createCorpus`** \
+Create a new corpus containing the uploaded PDF document.\
+HTTP verb: **POST**  \
+Form data: multipart\
 **Fields**
 `userWorkspace` A relative directory name in which all this user's files are stored
 `corpusName` The name of the corpus to create.  This will be used as a directory name.
@@ -63,12 +64,12 @@ Example usage:
 
 ---
 
-**`/api/cropbox`**
+**`/api/cropbox`** \
 Crop document according to coordinates, dimensions and page number to select a specific area for data extraction using norma.  Assumes a single-document corpus. 
 
-HTTP verb: **POST**  
-Form data: x-www-form-urlencoded
-**Fields**
+HTTP verb: **POST** \ 
+Form data: x-www-form-urlencoded \
+**Fields** \
 `userWorkspace` A relative directory name in which all this user's files are stored
 `corpusName` The name of the corpus.  
 
