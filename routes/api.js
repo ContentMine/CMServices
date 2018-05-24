@@ -194,7 +194,7 @@ router.route('/extractTableToHTML')
 										return nservices.transformSVGTABLE2HTML(req, res);
 								})				
 								.then(function(returnVal) {
-									 var tableHTMLURL = path.resolve(returnVal));
+									 var tableHTMLURL = path.resolve(returnVal);
 									 console.log('URL for table HTML'+tableHTMLURL);
 								   res.sendFile(tableHTMLURL);
 								})				
