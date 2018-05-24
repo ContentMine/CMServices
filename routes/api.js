@@ -162,5 +162,49 @@ router.route('/getTableCSV/:userWorkspace/:corpusName/:docName/')
 			 }
 		});
 
+// One-shot TableClipper endpoint
+// Form data: multipart
+// Returns extracted table data as HTML
+router.route('/extractTableToHTML')
+	.post(function(req, res) {
+  		 upload(req, res, function(err) {
+         if (err) {
+     			 console.log(err);
+     			 return res.end("Error uploading file");
+         } else {
+					 var fullyQualifiedDocName = path.join(fileStorageCM, 
+		                                         req.body.userWorkspace, 
+																						 req.body.corpusName,
+																						 req.body.docName);
+
+	         console.log('Upload PDF to new Corpus:'+fullyQualifiedDocName); 	
+					 console.log(req.body);
+					 console.log('Call makeProject');
+					 nservices.makeProject(req, res)
+								.then(function(result1) {
+										console.log('Call transformPDF2SVG');
+										return nservices.transformPDF2SVG(req, res);
+								})				
+								.then(function(result2) {
+										console.log('Call cropbox');
+										return nservices.cropbox(req, res);
+								})				
+								.then(function(result3) {
+										console.log('Call transformSVGTABLE2HTML');
+										return nservices.transformSVGTABLE2HTML(req, res);
+								})				
+								.then(function(returnVal) {
+									 var tableHTMLURL = path.resolve(returnVal));
+									 console.log('URL for table HTML'+tableHTMLURL);
+								   res.sendFile(tableHTMLURL);
+								})				
+								.catch(function(err) {
+										console.log(err);
+								});
+
+				}
+			})
+	});
+
 module.exports = router;
 
