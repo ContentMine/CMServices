@@ -12,6 +12,10 @@ Note: The initial version is at proof-of-concept status and the API is subject t
 
 Please follow [these cross-platform instructions](https://github.com/blahah/installing-node-tools)
 
+### System requirements
+
+Requires `node` v.8.0.0 or above.  Created with `npm` v5.0.0.
+
 ## Usage
 
 Use `npm start` to start `CMServices`.
