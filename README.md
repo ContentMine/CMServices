@@ -39,9 +39,9 @@ Create a new corpus containing the uploaded PDF document.\
 HTTP verb: **POST**  \
 Form data: multipart\
 **Fields**
-`userWorkspace` A relative directory name in which all this user's files are stored
-`corpusName` The name of the corpus to create.  This will be used as a directory name.
-`docName` The document name to use for the uploaded PDF (e.g., a DOI).  This will be used as a directory name and should be unique within the corpus.
+`userWorkspace` A relative directory name in which all this user's files are stored \
+`corpusName` The name of the corpus to create.  This will be used as a directory name \
+`docName` The document name to use for the uploaded PDF (e.g., a DOI).  This will be used as a directory name and should be unique within the corpus \
 `A PDF file` 
 
 Example usage:
@@ -73,6 +73,13 @@ Form data: x-www-form-urlencoded\
 **Fields** \
 `userWorkspace` A relative directory name in which all this user's files are stored
 `corpusName` The name of the corpus.  
+`x0` The x coordinate of the top-left corner of the table \
+`y0` The y coordinate of the top-left corner of the table \
+`width` The width of the table in mm \
+`height` The height of the table in mm \
+`pageNumber` The number of the page containing the table (numbering is relative to the PDF document, so page numbers start at 1).  
+
+The coordinate system defaults to `ydown`, with y coordinates increasing down the page, and the units to `mm`.  
 
 Example usage:
 
@@ -141,7 +148,33 @@ returns HTML data to std out.
 
 ---
 
-#### Example workflow: Extracting a table from a PDF file.
+**`/api/extractTableToHTML`** \
+Extract the table data from the specific page and area of uploaded PDF document and return results in semantically structured HTML \
+HTTP verb: **POST**  \
+Form data: multipart\
+**Fields** \
+`userWorkspace` A relative directory name in which all this user's files are stored \
+`corpusName` The name of the corpus to create.  This will be used as a directory name. \
+`docName` The document name to use for the uploaded PDF (e.g., a DOI).  This will be used as a directory name and should be unique within the corpus. \
+`x0` The x coordinate of the top-left corner of the table \
+`y0` The y coordinate of the top-left corner of the table \
+`width` The width of the table in mm \
+`height` The height of the table in mm \
+`pageNumber` The number of the page containing the table (numbering is relative to the PDF document, so page numbers start at 1). \
+`A PDF file`  
+
+Example usage:
+
+```curl --form userWorkspace="user1" --form corpusName="corpus1" --form docName="doc1" --form "fileupload=@testpdf.pdf" --form x0=17.5 --form y0=26 --form width=178.5 --form height=97.5 --form pageNumber=5 http://localhost:3002/api/extractTableToHTML```
+
+---
+
+#### Example workflow 1: Extracting a table from a PDF file and returning HTML
+Use 
+ **`/api/extractTableToHTML`** with form fields as above.
+
+
+#### Example workflow 2: Individual calls for workflow to extract a table from a PDF file.
 
 1. Upload the PDF document\
  **`/api/createCorpus`**
