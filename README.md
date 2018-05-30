@@ -8,21 +8,21 @@ Note: The initial version is at proof-of-concept status and the API is subject t
 
 ## Installation
 
-### Installing node.js
-
-Please follow [these cross-platform instructions](https://github.com/blahah/installing-node-tools)
-
 ### System requirements
 
-Requires `node` v.8.0.0 or above.  Created with `npm` v5.0.0.
+Target node.js version is: `node` v.8.0.0  
+Created with `npm` v5.0.0.
 
 ## Usage
 
-Use `npm start` to start `CMServices`.
+In directory `CMServices` use `npm start` to start `CMServices` as a server.
+The port defaults to `3000`.  Set the `PORT` environment variable to override this.  For instance:  
+
+```$ PORT=3002 && npm start```
 
 ## Configuration
 
-Server configuration uses `default.json`.  
+The server configuration uses `default.json`.  
 
 As well as **`host`** the following can be configured:
 
@@ -53,10 +53,11 @@ Example usage:
 ```curl --form userWorkspace="user1" --form corpusName="corpus1" --form docName="doc1" --form "fileupload=@testpdf.pdf" http://localhost:3002/api/corpus```
 
 ---
-**`/api/transformPDF2SVG`**
+
+**`/api/transformPDF2SVG`** \
 For all PDF documents in the corpus, generate an SVG file for each page.  This converts pages into the intermediate SVG format used for data extraction and analysis by `norma`.\
 HTTP verb: **POST**  \
-Form data: x-www-form-urlencoded
+Form data: x-www-form-urlencoded \
 
 **Fields**\
 `userWorkspace` A relative directory name in which all this user's files are stored\
@@ -187,7 +188,7 @@ Use
 3. Crop the specified area of the specified page to leave only the table in SVG.\
  **`/api/cropbox`**
 4. Extract data and semantic structure from the table SVG.  Output as HTML or CSV.\
- **`/api/transformSVGTABLE2HTML`**\, **`/api/transformSVGTABLE2CSV`**
+ **`/api/transformSVGTABLE2HTML`**\, **`/api/transformSVGTABLE2CSV`** \
 5. Retrieve extracted/structured data results after conversion:\
  **`/api/getTableHTML`**\, **`/api/getTableCSV`**
 
